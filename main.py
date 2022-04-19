@@ -230,8 +230,9 @@ async def on_message(message):
           gs.set_cookie(ltuid=int(f.decrypt(str(userData[2]).encode("utf-8")).decode("utf-8")), ltoken=str(f.decrypt(str(userData[1]).encode("utf-8")).decode("utf-8")))
           gs.get_notes(split_message[1])
           await message.channel.send(await setUID(split_message[1], userId))
-        except:
+        except Exception as e:
           await message.channel.send("UID is invalid.")
+          print(e)
     #!checkResin
     if split_message[0] == '!checkResin':
       if len(split_message) == 1:
