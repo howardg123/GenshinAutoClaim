@@ -247,23 +247,5 @@ async def on_message(message):
         except Exception as e:
           print(e)
           await message.channel.send("Either no UID or UID is invalid.")
-    #!redeemCode
-    if split_message[0] == '!redeemCode':
-      if len(split_message) == 2:
-        userId = message.author.id
-        #verify
-        try:
-          userData = await getUser(userId)
-          userName = await client.fetch_user(userId)
-          gs.set_cookie(ltuid=int(f.decrypt(str(userData[2]).encode("utf-8")).decode("utf-8")), ltoken=str(f.decrypt(str(userData[1]).encode("utf-8")).decode("utf-8")))
-          try:
-            gs.redeem_code(split_message[1])
-            await message.channel.send("Claimed successfully.")
-          except Exception as e:
-            print(e)
-            await message.channel.send("Either invalid code or already claimed.")
-        except Exception as e:
-          print(e)
-          await message.channel.send("Either no UID or UID is invalid.")
 client.loop.create_task(autoClaimAll())
 client.run(os.environ['DISCORD_TOKEN'])
