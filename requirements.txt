@@ -14,7 +14,7 @@ cryptography==36.0.1
 db==0.1.1
 discord.py==1.7.3
 Flask==2.0.2
-genshinstats @ git+https://github.com/thesadru/genshinstats@c527f08b6077e996a29fa380d5a04ed70a749940
+genshinstats @ git+https://github.com/thesadru/genshinstats@31aeb8efa8b972216827203df190557ec3967382
 idna==3.3
 importlib-metadata==4.10.0
 itsdangerous==2.0.1
