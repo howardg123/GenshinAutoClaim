@@ -114,16 +114,13 @@ async def autoClaimAll():
     print(e)
     channel = client.get_channel(id=911650646653034504)
     myID = '<@528802955831410690>'
-    await channel.send(' : %s, please restart the server' % myID)
+    await channel.send('%s, please restart the server' % myID)
     await asyncio.sleep(15)
 
 @client.event
 async def on_ready():
     print(f'{client.user} has connected to Discord!')
     await client.wait_until_ready()
-    channel = client.get_channel(id=911650646653034504)
-    myID = '<@528802955831410690>'
-    await channel.send(' : %s, please restart the server' % myID)
     #schedule
     now = datetime.now()
     day = now.replace(tzinfo=timezone.utc).astimezone(tz.gettz('Asia/Hong_Kong')).strftime('%d')
