@@ -131,6 +131,8 @@ async def on_ready():
         switched = 1
     elif int(day) == 1 and proclist2['worker'].quantity == 1:
         #open server 1 close server 2
+        print("@@@")
+        print(channel)
         await channel.send('Switching to server 1.')
         app1.process_formation()['worker'].scale(1)
         app2.process_formation()['worker'].scale(0)
