@@ -112,7 +112,7 @@ async def autoClaimAll():
   except Exception as e:
     print("Error in autoClaimAll")
     print(e)
-    channel = client.get_channel(id=911650646653034504)
+    channel = client.get_channel(id=os.environ['CHANNEL_ID'])
     myID = '<@528802955831410690>'
     await channel.send('%s, please restart the server' % myID)
     await asyncio.sleep(15)
@@ -125,6 +125,7 @@ async def on_ready():
     now = datetime.now()
     day = now.replace(tzinfo=timezone.utc).astimezone(tz.gettz('Asia/Hong_Kong')).strftime('%d')
     switched = 0
+    channel = client.get_channel(id=os.environ['CHANNEL_ID'])
     if int(day) == 15 and proclist1['worker'].quantity == 1:
         #open server 2 close server 1
         await channel.send('Switching to server 2.')
