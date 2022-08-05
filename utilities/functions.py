@@ -33,12 +33,14 @@ async def checkGuildExist(message):
     await insertDataToGuildTable(message.channel.id)
 
 async def sendEmbed(message):
-  embed = discord.Embed(title="Daily Rewards", description=message, color=0x3CA45C)
-  embed.set_thumbnail(url=img)
-  now = datetime.now()
-  t_now = str(now.replace(tzinfo=timezone.utc).astimezone(tz.gettz('Asia/Hong_Kong')).strftime('%d/%m/%Y at %X'))
-  embed.set_footer(text=t_now, icon_url='https://theclick.gg/wp-content/uploads/2022/02/hoyoverse-new-brand-genshin.jpg')
-  return embed
+  return discord.Embed(
+    title="Daily Rewards", 
+    description=message, 
+    color=0x3CA45C
+    ).set_thumbnail(url=img
+    ).set_footer(
+      text=str(datetime.now().replace(tzinfo=timezone.utc).astimezone(tz.gettz('Asia/Hong_Kong')).strftime('%d/%m/%Y at %X')), icon_url='https://theclick.gg/wp-content/uploads/2022/02/hoyoverse-new-brand-genshin.jpg'
+    )
 
 async def claim(client, userId, ltoken, ltuid, guildId):
   try:

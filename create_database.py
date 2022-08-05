@@ -4,9 +4,9 @@ import os
 import heroku3
 from cryptography.fernet import Fernet
 
-def get_heroku_connection(heroku_key):
+def get_heroku_connection(heroku_key, heroku_name):
     heroku_conn = heroku3.from_key(heroku_key)
-    app = heroku_conn.apps()['genshinautoclaim']
+    app = heroku_conn.apps()[heroku_name]
     proclist = app.process_formation()
     config = app.config()
     return heroku_conn, app, proclist, config
@@ -17,9 +17,9 @@ def compareDatabaseURL(config1, config2):
         print("config is changed")
 
 #Heroku server 1
-heroku_conn1, app1, proclist1, config1 = get_heroku_connection(os.environ['HEROKU1_KEY'])
+heroku_conn1, app1, proclist1, config1 = get_heroku_connection(os.environ['HEROKU1_KEY'], 'genshinautoclaim')
 #Heroku server 2
-heroku_conn2, app2, proclist2, config2 = get_heroku_connection(os.environ['HEROKU2_KEY'])
+heroku_conn2, app2, proclist2, config2 = get_heroku_connection(os.environ['HEROKU2_KEY'], 'genshinautoclaim2')
 compareDatabaseURL(config1, config2)
 
 conn = psycopg2.connect(os.environ['DATABASE_URL'], sslmode='require').set_session(autocommit=True)
