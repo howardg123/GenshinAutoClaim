@@ -3,27 +3,26 @@ import numpy as np
 import os
 import heroku3
 from cryptography.fernet import Fernet
-from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+
+def get_heroku_connection(heroku_key):
+    heroku_conn = heroku3.from_key(heroku_key)
+    app = heroku_conn.apps()['genshinautoclaim']
+    proclist = app.process_formation()
+    config = app.config()
+    return heroku_conn, app, proclist, config
+
+def compareDatabaseURL(config1, config2):
+    if config1["DATABASE_URL"] != config2["DATABASE_URL"]:
+        config2["DATABASE_URL"] = config1["DATABASE_URL"]
+        print("config is changed")
 
 #Heroku server 1
-heroku_conn1 = heroku3.from_key(os.environ['HEROKU1_KEY'])
-app1 = heroku_conn1.apps()['genshinautoclaim']
-proclist1 = app1.process_formation()
-config1 = app1.config()
+heroku_conn1, app1, proclist1, config1 = get_heroku_connection(os.environ['HEROKU1_KEY'])
 #Heroku server 2
-heroku_conn2 = heroku3.from_key(os.environ['HEROKU2_KEY'])
-app2 = heroku_conn2.apps()['genshinautoclaim2']
-proclist2 = app2.process_formation()
-config2 = app2.config()
-if config1["DATABASE_URL"] != config2["DATABASE_URL"]:
-  config2["DATABASE_URL"] = config1["DATABASE_URL"]
-  print("config is changed")
+heroku_conn2, app2, proclist2, config2 = get_heroku_connection(os.environ['HEROKU2_KEY'])
+compareDatabaseURL(config1, config2)
 
-DATABASE_URL = os.environ['DATABASE_URL']
-
-conn = psycopg2.connect(DATABASE_URL, sslmode='require')
-conn.set_session(autocommit=True)
+conn = psycopg2.connect(os.environ['DATABASE_URL'], sslmode='require').set_session(autocommit=True)
 secret_key=os.environ['SECRET_KEY']
 f = Fernet(secret_key.encode("utf-8"))
 cursor = conn.cursor()
