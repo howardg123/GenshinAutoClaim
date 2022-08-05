@@ -4,6 +4,10 @@ from datetime import datetime, timezone
 from dateutil import tz
 import genshinstats as gs
 import asyncio
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 def switch_server(curr, dest):
   curr.process_formation()['worker'].scale(0)

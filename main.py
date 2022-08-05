@@ -4,8 +4,12 @@ from datetime import datetime, timezone
 from dateutil import tz
 import genshinstats as gs
 import discord
+from dotenv import load_dotenv
+import os
 
 client = discord.Client()
+
+load_dotenv()
 
 @client.event
 async def on_ready():

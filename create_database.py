@@ -3,6 +3,9 @@ import numpy as np
 import os
 import heroku3
 from cryptography.fernet import Fernet
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def get_heroku_connection(heroku_key, heroku_name):
     heroku_conn = heroku3.from_key(heroku_key)
