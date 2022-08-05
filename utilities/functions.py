@@ -10,8 +10,8 @@ import os
 load_dotenv()
 
 def switch_server(curr, dest):
-  curr.process_formation()['worker'].scale(0)
   dest.process_formation()['worker'].scale(1)
+  curr.process_formation()['worker'].scale(0)
 
 async def checkDate(client):
   day = datetime.now().replace(tzinfo=timezone.utc).astimezone(tz.gettz('Asia/Hong_Kong')).strftime('%d')
