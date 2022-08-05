@@ -25,7 +25,8 @@ heroku_conn1, app1, proclist1, config1 = get_heroku_connection(os.environ['HEROK
 heroku_conn2, app2, proclist2, config2 = get_heroku_connection(os.environ['HEROKU2_KEY'], 'genshinautoclaim2')
 compareDatabaseURL(config1, config2)
 
-conn = psycopg2.connect(os.environ['DATABASE_URL'], sslmode='require').set_session(autocommit=True)
+conn = psycopg2.connect(os.environ['DATABASE_URL'], sslmode='require')
+conn.set_session(autocommit=True)
 secret_key=os.environ['SECRET_KEY']
 f = Fernet(secret_key.encode("utf-8"))
 cursor = conn.cursor()
