@@ -1,3 +1,4 @@
+from posixpath import split
 from create_database import *
 from utilities.functions import *
 from datetime import datetime, timezone
@@ -101,5 +102,23 @@ async def on_message(message):
         except Exception as e:
           print(e)
           await message.channel.send("Either no UID or UID is invalid. Please update your UID using !updateUID <UID>")
+    #!notify <number of resin>
+    if split_message[0] == '!notify':
+      if len(split_message) >= 1:
+        try:
+          userData = await getUser(message.author.id)
+          if len(split_message) == 1:
+            resinCap = 150
+          else:
+            resinCap = split_message[1]
+          if int(resinCap) >= 0 and int(resinCap) <= 160:
+            gs.set_cookie(ltuid=int(f.decrypt(str(userData[2]).encode("utf-8")).decode("utf-8")), ltoken=str(f.decrypt(str(userData[1]).encode("utf-8")).decode("utf-8"))) #verify
+            await message.channel.send(await updateNotify(resinCap, str(userData[0])))
+          else:
+            await message.channel.send("Please enter a valid number from 0 to 160")
+        except Exception as e:
+          print(e)
+          await message.channel.send("No user exist")
 client.loop.create_task(autoClaimAll(client))
+client.loop.create_task(autoNotifyAll(client))
 client.run(os.environ['DISCORD_TOKEN'])

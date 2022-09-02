@@ -42,6 +42,9 @@ async def sendEmbed(message):
   embed.set_footer(text=str(datetime.now().replace(tzinfo=timezone.utc).astimezone(tz.gettz('Asia/Hong_Kong')).strftime('%d/%m/%Y at %X')), icon_url='https://theclick.gg/wp-content/uploads/2022/02/hoyoverse-new-brand-genshin.jpg')
   return embed
 
+async def notifyUser():
+  ...
+
 async def claim(client, userId, ltoken, ltuid, guildId):
   try:
     #verify
@@ -99,7 +102,6 @@ async def claim_all(client):
     print(e)
     await asyncio.sleep(15)
 
-
 async def autoClaimAll(client):
   try:
     await client.wait_until_ready()
@@ -141,4 +143,28 @@ async def autoClaimAll(client):
     channel = client.get_channel(id=int(os.environ['CHANNEL_ID']))
     myID = '<@528802955831410690>'
     await channel.send('%s, please restart the server' % myID)
+    await asyncio.sleep(15)
+
+async def autoNotifyAll(client):
+  try:
+    await client.wait_until_ready()
+    notifiedList = []
+    while not client.is_closed():
+      #loop through all guilds
+      channels = await getAllGuild()
+      for currChannel in channels:
+        channel = client.get_channel(id=currChannel)
+        #get all users from guild
+        user = await getUsersFromGuild(currChannel)
+        for x in range(len(user)):
+          if user[x]['notify'] != None:
+            gs.set_cookie(ltuid=int(f.decrypt(str(user[x]['ltuid']).encode("utf-8")).decode("utf-8")), ltoken=str(f.decrypt(str(user[x]['ltoken']).encode("utf-8")).decode("utf-8")))
+            currResin = gs.get_notes(f.decrypt(str(await getUID(user[x]['name'])).encode("utf-8")).decode("utf-8"))['resin']
+            if user[x]['notify'] == 'TRUE' and user[x]['name'] not in notifiedList and int(currResin) >= int(user[x]['notifyResin']):
+              notifiedList.append(user[x]['name'])
+              await channel.send("<@"+str(user[x]['name'])+"> Your resin is at "+ str(currResin) + "/160")
+      await asyncio.sleep(480)
+  except Exception as e:
+    print("Error in autoNotifyAll")
+    print(e)
     await asyncio.sleep(15)

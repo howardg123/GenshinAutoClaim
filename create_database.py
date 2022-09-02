@@ -116,16 +116,18 @@ async def getUser(userId):
     
 async def getUsersFromGuild(guildId):
     try:
-        sqlSelectUsersfromGuild = "select id, ltoken, ltuid from "+userTableName+" where guild = " + str(guildId)
+        sqlSelectUsersfromGuild = "select id, ltoken, ltuid, notify, notifyResin from "+userTableName+" where guild = " + str(guildId)
         cursor.execute(sqlSelectUsersfromGuild)
         records = cursor.fetchall()
         arrayObject = []
         for record in records:
-            userid, ltoken, ltuid = record
+            userid, ltoken, ltuid, notify, notifyResin = record
             userObject = {
                 'name': userid,
                 'ltoken': ltoken,
                 'ltuid': ltuid,
+                'notify': notify,
+                'notifyResin': notifyResin,
             }
             arrayObject.append(userObject)
         return arrayObject
@@ -189,3 +191,17 @@ async def getUID(userId):
         return record
     except (Exception, psycopg2.Error) as error:
         print("Failed to get data in user table", error)
+
+async def updateNotify(notifyResin, userId):
+    try:
+        #guildId
+        sqlUpdateUserLtoken = "update "+userTableName+" set notify = %s where id = %s"
+        cursor.execute(sqlUpdateUserLtoken, ('TRUE', userId))
+        conn.commit()
+        sqlUpdateUserLtoken = "update "+userTableName+" set notifyResin = %s where id = %s"
+        cursor.execute(sqlUpdateUserLtoken, (notifyResin, userId))
+        conn.commit()
+        return "Will notify user <@"+str(userId)+"> if resin is at "+ str(notifyResin)
+    except (Exception, psycopg2.Error) as error:
+        print(error)
+        return "<@"+str(userId)+">"+"'s data failed to update."
