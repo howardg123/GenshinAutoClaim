@@ -33,7 +33,8 @@ async def on_message(message):
           "!claimAll - Claim everyone's daily reward in all servers.\n"+
           "!delete - Delete your data in the database.\n"+
           "!updateUID <UID> - Add your UID to the database to check resin.\n"+
-          "!checkResin - Checks your resin only if you have UID.")
+          "!checkResin - Checks your resin only if you have UID.\n"+
+          "!notify <number of resin> - Notify if your resin has reached the number. Default is 150.")
     #!claim
     if split_message[0] == '!claim':
       if len(split_message) == 1:
