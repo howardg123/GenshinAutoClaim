@@ -163,6 +163,8 @@ async def autoNotifyAll(client):
             if user[x]['notify'] == 'TRUE' and user[x]['name'] not in notifiedList and int(currResin) >= int(user[x]['notifyResin']):
               notifiedList.append(user[x]['name'])
               await channel.send("<@"+str(user[x]['name'])+"> Your resin is at "+ str(currResin) + "/160")
+            if user[x]['notify'] == 'TRUE' and user[x]['name'] in notifiedList and int(currResin) < int(user[x]['notifyResin']):
+              notifiedList.remove(user[x]['name'])
       await asyncio.sleep(480)
   except Exception as e:
     print("Error in autoNotifyAll")
