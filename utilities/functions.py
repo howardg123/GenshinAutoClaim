@@ -174,7 +174,7 @@ async def autoNotifyAll(client):
                   message = await channel.fetch_message(userObject['messageID'])
                   await message.edit(content="<@"+str(user[x]['name'])+"> Your resin is at "+ str(currResin) + "/160")
                   print("changed")
-      await asyncio.sleep(480)
+      await asyncio.sleep(60)
   except Exception as e:
     print("Error in autoNotifyAll")
     print(e)
