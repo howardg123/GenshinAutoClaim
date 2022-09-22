@@ -149,6 +149,7 @@ async def autoNotifyAll(client):
   try:
     await client.wait_until_ready()
     notifiedList = []
+    messageIDList = []
     while not client.is_closed():
       #loop through all guilds
       channels = await getAllGuild()
@@ -162,9 +163,17 @@ async def autoNotifyAll(client):
             currResin = gs.get_notes(f.decrypt(str(await getUID(user[x]['name'])).encode("utf-8")).decode("utf-8"))['resin']
             if user[x]['notify'] == 'TRUE' and user[x]['name'] not in notifiedList and int(currResin) >= int(user[x]['notifyResin']):
               notifiedList.append(user[x]['name'])
-              await channel.send("<@"+str(user[x]['name'])+"> Your resin is at "+ str(currResin) + "/160")
-            if user[x]['notify'] == 'TRUE' and user[x]['name'] in notifiedList and int(currResin) < int(user[x]['notifyResin']):
+              messageID = await channel.send("<@"+str(user[x]['name'])+"> Your resin is at "+ str(currResin) + "/160")
+              messageIDList.append({'user': user[x]['name'], 'messageID': messageID.id})
+            elif user[x]['notify'] == 'TRUE' and user[x]['name'] in notifiedList and int(currResin) < int(user[x]['notifyResin']):
               notifiedList.remove(user[x]['name'])
+              messageIDList[:] = [d for d in messageIDList if d.get('id') != user[x]['name']]
+            elif user[x]['notify'] == 'TRUE' and user[x]['name'] in notifiedList and int(currResin) > int(user[x]['notifyResin']):
+              for userObject in messageIDList:
+                if userObject['user'] == user[x]['name']:
+                  message = await channel.fetch_message(userObject['messageID'])
+                  await message.edit(content="<@"+str(user[x]['name'])+"> Your resin is at "+ str(currResin) + "/160")
+                  print("changed")
       await asyncio.sleep(480)
   except Exception as e:
     print("Error in autoNotifyAll")
