@@ -123,8 +123,7 @@ async def on_message(message):
     if split_message[0] == '!restart':
       if len(split_message) == 1:
         try:
-          userData = await getUser(message.author.id)
-          if userData[0] == 528802955831410690:
+          if message.author.id == 528802955831410690:
             app1.restart()
             app2.restart()
             await message.channel.send("Bot restarted.")
