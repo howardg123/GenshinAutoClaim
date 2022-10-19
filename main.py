@@ -131,6 +131,11 @@ async def on_message(message):
             await message.channel.send("You are not authorized.")
         except Exception as e:
           print(e)
-client.loop.create_task(autoClaimAll(client))
-client.loop.create_task(autoNotifyAll(client))
+try:
+  client.loop.create_task(autoClaimAll(client))
+  client.loop.create_task(autoNotifyAll(client))
+except Exception as e:
+  print(f'{e}')
+  app1.restart()
+  app2.restart()
 client.run(os.environ['DISCORD_TOKEN'])
