@@ -136,6 +136,4 @@ try:
   client.loop.create_task(autoNotifyAll(client))
 except Exception as e:
   print(f'{e}')
-  app1.restart()
-  app2.restart()
 client.run(os.environ['DISCORD_TOKEN'])

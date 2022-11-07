@@ -140,9 +140,9 @@ async def autoClaimAll(client):
   except Exception as e:
     print("Error in autoClaimAll")
     print(e)
-    channel = client.get_channel(id=int(os.environ['CHANNEL_ID']))
-    myID = '<@528802955831410690>'
-    await channel.send('%s, please restart the server' % myID)
+    # channel = client.get_channel(id=int(os.environ['CHANNEL_ID']))
+    # myID = '<@528802955831410690>'
+    # await channel.send('%s, please restart the server' % myID)
     await asyncio.sleep(15)
 
 async def autoNotifyAll(client):
@@ -178,7 +178,6 @@ async def autoNotifyAll(client):
   except Exception as e:
     print("Error in autoNotifyAll")
     print(e)
-    channel = client.get_channel(id=int(os.environ['CHANNEL_ID']))
-    myID = '<@528802955831410690>'
-    await channel.send('%s, please restart the server' % myID)
+    app1.restart()
+    app2.restart()
     await asyncio.sleep(15)
