@@ -178,4 +178,7 @@ async def autoNotifyAll(client):
   except Exception as e:
     print("Error in autoNotifyAll")
     print(e)
+    channel = client.get_channel(id=int(os.environ['CHANNEL_ID']))
+    myID = '<@528802955831410690>'
+    await channel.send('%s, please restart the server' % myID)
     await asyncio.sleep(15)
