@@ -147,6 +147,7 @@ async def autoClaimAll(client):
 
 async def autoNotifyAll(client):
   try:
+    print("again")
     await client.wait_until_ready()
     notifiedList = []
     messageIDList = []
@@ -178,6 +179,4 @@ async def autoNotifyAll(client):
   except Exception as e:
     print("Error in autoNotifyAll")
     print(e)
-    app1.restart()
-    app2.restart()
     await asyncio.sleep(15)
