@@ -82,7 +82,8 @@ async def claim_all(client):
     #loop through all guilds
     channels = await getAllGuild()
     for currChannel in channels:
-      channel = client.get_channel(id=currChannel)
+      channel = client.get_channel(id=int(currChannel))
+      print(channel)
       #get all users from guild
       user = await getUsersFromGuild(currChannel)
       message = ""
@@ -94,7 +95,8 @@ async def claim_all(client):
         else:
           #remove channel in database if empty
           await removeGuildData(currChannel)
-      except:
+      except Exception as e:
+        print(e)
         print("error in claim_all loop user")
         await asyncio.sleep(15)
   except Exception as e:
@@ -119,7 +121,7 @@ async def autoClaimAll(client):
         #loop through all guilds
         channels = await getAllGuild()
         for currChannel in channels:
-          channel = client.get_channel(id=currChannel)
+          channel = client.get_channel(id=int(currChannel))
           #get all users from guild
           user = await getUsersFromGuild(currChannel)
           message = ""
@@ -155,7 +157,7 @@ async def autoNotifyAll(client):
       #loop through all guilds
       channels = await getAllGuild()
       for currChannel in channels:
-        channel = client.get_channel(id=currChannel)
+        channel = client.get_channel(id=int(currChannel))
         #get all users from guild
         user = await getUsersFromGuild(currChannel)
         for x in range(len(user)):
