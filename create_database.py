@@ -36,7 +36,7 @@ userTableName = "user_table"
 
 #Guild
 async def createGuildTable():
-    sqlCreateGuildTable = "create table if not exists "+guildTableName+" (id bigint NOT NULL PRIMARY KEY);"
+    sqlCreateGuildTable = "create table if not exists "+guildTableName+" (id text NOT NULL PRIMARY KEY);"
     cursor.execute(sqlCreateGuildTable)
     conn.commit()
 
@@ -52,7 +52,7 @@ async def insertDataToGuildTable(guildId):
 
 async def getGuild(guildId):
     try:
-        sqlSelectGuildData = "select id from "+guildTableName+" where id = "+str(guildId)
+        sqlSelectGuildData = "select id from "+guildTableName+" where id = '"+str(guildId)+"'"
         cursor.execute(sqlSelectGuildData)
         record = cursor.fetchone()
         return record
@@ -71,7 +71,7 @@ async def getAllGuild():
 
 async def removeGuildData(guildId):
     try:
-        sqlDeleteGuildData = "delete from "+guildTableName+" where id = " + str(guildId)
+        sqlDeleteGuildData = "delete from "+guildTableName+" where id = '" + str(guildId)+"'"
         cursor.execute(sqlDeleteGuildData)
         conn.commit()
         count = cursor.rowcount
@@ -90,7 +90,7 @@ async def removeAllGuildData():
         print("Error in Delete operation", error)
 #User
 async def createUserTable():
-    sqlCreateUserTable = "create table if not exists "+userTableName+" (id bigint NOT NULL PRIMARY KEY, ltoken text NOT NULL, ltuid text NOT NULL, guild bigint NOT NULL);"
+    sqlCreateUserTable = "create table if not exists "+userTableName+" (id text NOT NULL PRIMARY KEY, ltoken text NOT NULL, ltuid text NOT NULL, guild text NOT NULL);"
     cursor.execute(sqlCreateUserTable)
     conn.commit()
 
@@ -107,7 +107,7 @@ async def insertDataToUserTable(userName, userId, ltoken, ltuid, guildId):
 
 async def getUser(userId):
     try:
-        sqlSelectUsersfromGuild = "select id, ltoken, ltuid, guild from "+userTableName+" where id = " + str(userId)
+        sqlSelectUsersfromGuild = "select id, ltoken, ltuid, guild from "+userTableName+" where id = '" + str(userId)+"'"
         cursor.execute(sqlSelectUsersfromGuild)
         record = cursor.fetchone()
         return record
@@ -116,7 +116,7 @@ async def getUser(userId):
     
 async def getUsersFromGuild(guildId):
     try:
-        sqlSelectUsersfromGuild = "select id, ltoken, ltuid, notify, notifyResin from "+userTableName+" where guild = " + str(guildId)
+        sqlSelectUsersfromGuild = "select id, ltoken, ltuid, notify, notifyResin from "+userTableName+" where guild = '" + str(guildId)+"'"
         cursor.execute(sqlSelectUsersfromGuild)
         records = cursor.fetchall()
         arrayObject = []
@@ -136,7 +136,7 @@ async def getUsersFromGuild(guildId):
 
 async def removeUserData(userName, userId):
     try:
-        sqlDeleteUserData = "delete from "+userTableName+" where id = " + str(userId)
+        sqlDeleteUserData = "delete from "+userTableName+" where id = '" + str(userId)+"'"
         cursor.execute(sqlDeleteUserData)
         conn.commit()
         return str(userName)+"'s data is removed successfully."
@@ -156,15 +156,15 @@ async def removeAllUserData():
 async def updateUserData(userName, userId, ltoken, ltuid, guildId):
     try:
         #ltoken
-        sqlUpdateUserLtoken = "update user_table set ltoken = %s where id = %s"
+        sqlUpdateUserLtoken = "update user_table set ltoken = %s where id = '%s'"
         cursor.execute(sqlUpdateUserLtoken, (str(f.encrypt(str(ltoken).encode("utf-8")).decode("utf-8")), userId))
         conn.commit()
         #ltuid
-        sqlUpdateUserLtoken = "update user_table set ltuid = %s where id = %s"
+        sqlUpdateUserLtoken = "update user_table set ltuid = %s where id = '%s'"
         cursor.execute(sqlUpdateUserLtoken, (str(f.encrypt(str(ltuid).encode("utf-8")).decode("utf-8")), userId))
         conn.commit()
         #guildId
-        sqlUpdateUserLtoken = "update user_table set guild = %s where id = %s"
+        sqlUpdateUserLtoken = "update user_table set guild = %s where id = '%s'"
         cursor.execute(sqlUpdateUserLtoken, (guildId, userId))
         conn.commit()
         return str(userName)+"'s data is successfully updated. Claim messages will be sent here."
@@ -175,7 +175,7 @@ async def updateUserData(userName, userId, ltoken, ltuid, guildId):
 async def setUID(uid, userId):
     try:
         #ltoken
-        sqlUpdateUID = "update user_table set uid = %s where id = %s"
+        sqlUpdateUID = "update user_table set uid = %s where id = '%s'"
         cursor.execute(sqlUpdateUID, (str(f.encrypt(str(uid).encode("utf-8")).decode("utf-8")), userId))
         conn.commit()
         return str(uid)+"'s data is successfully added."
@@ -185,7 +185,7 @@ async def setUID(uid, userId):
 
 async def getUID(userId):
     try:
-        sqlSelectUIDfromUser = "select uid from "+userTableName+" where id = " + str(userId)
+        sqlSelectUIDfromUser = "select uid from "+userTableName+" where id = '" + str(userId)+"'"
         cursor.execute(sqlSelectUIDfromUser)
         record = cursor.fetchone()
         return record
@@ -195,10 +195,10 @@ async def getUID(userId):
 async def updateNotify(notifyResin, userId):
     try:
         #guildId
-        sqlUpdateUserLtoken = "update "+userTableName+" set notify = %s where id = %s"
+        sqlUpdateUserLtoken = "update "+userTableName+" set notify = %s where id = '%s'"
         cursor.execute(sqlUpdateUserLtoken, ('TRUE', userId))
         conn.commit()
-        sqlUpdateUserLtoken = "update "+userTableName+" set notifyResin = %s where id = %s"
+        sqlUpdateUserLtoken = "update "+userTableName+" set notifyResin = %s where id = '%s'"
         cursor.execute(sqlUpdateUserLtoken, (notifyResin, userId))
         conn.commit()
         return "Will notify user <@"+str(userId)+"> if resin is at "+ str(notifyResin)
