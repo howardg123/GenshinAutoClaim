@@ -156,15 +156,15 @@ async def removeAllUserData():
 async def updateUserData(userName, userId, ltoken, ltuid, guildId):
     try:
         #ltoken
-        sqlUpdateUserLtoken = "update user_table set ltoken = %s where id = '%s'"
+        sqlUpdateUserLtoken = "update user_table set ltoken = %s where id = %s"
         cursor.execute(sqlUpdateUserLtoken, (str(f.encrypt(str(ltoken).encode("utf-8")).decode("utf-8")), userId))
         conn.commit()
         #ltuid
-        sqlUpdateUserLtoken = "update user_table set ltuid = %s where id = '%s'"
+        sqlUpdateUserLtoken = "update user_table set ltuid = %s where id = %s"
         cursor.execute(sqlUpdateUserLtoken, (str(f.encrypt(str(ltuid).encode("utf-8")).decode("utf-8")), userId))
         conn.commit()
         #guildId
-        sqlUpdateUserLtoken = "update user_table set guild = %s where id = '%s'"
+        sqlUpdateUserLtoken = "update user_table set guild = %s where id = %s"
         cursor.execute(sqlUpdateUserLtoken, (guildId, userId))
         conn.commit()
         return str(userName)+"'s data is successfully updated. Claim messages will be sent here."
@@ -175,7 +175,7 @@ async def updateUserData(userName, userId, ltoken, ltuid, guildId):
 async def setUID(uid, userId):
     try:
         #ltoken
-        sqlUpdateUID = "update user_table set uid = %s where id = '%s'"
+        sqlUpdateUID = "update user_table set uid = %s where id = %s"
         cursor.execute(sqlUpdateUID, (str(f.encrypt(str(uid).encode("utf-8")).decode("utf-8")), userId))
         conn.commit()
         return str(uid)+"'s data is successfully added."
@@ -195,10 +195,10 @@ async def getUID(userId):
 async def updateNotify(notifyResin, userId):
     try:
         #guildId
-        sqlUpdateUserLtoken = "update "+userTableName+" set notify = %s where id = '%s'"
+        sqlUpdateUserLtoken = "update "+userTableName+" set notify = %s where id = %s"
         cursor.execute(sqlUpdateUserLtoken, ('TRUE', userId))
         conn.commit()
-        sqlUpdateUserLtoken = "update "+userTableName+" set notifyResin = %s where id = '%s'"
+        sqlUpdateUserLtoken = "update "+userTableName+" set notifyResin = %s where id = %s"
         cursor.execute(sqlUpdateUserLtoken, (notifyResin, userId))
         conn.commit()
         return "Will notify user <@"+str(userId)+"> if resin is at "+ str(notifyResin)

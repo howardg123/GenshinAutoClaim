@@ -83,7 +83,6 @@ async def claim_all(client):
     channels = await getAllGuild()
     for currChannel in channels:
       channel = client.get_channel(id=int(currChannel))
-      print(channel)
       #get all users from guild
       user = await getUsersFromGuild(currChannel)
       message = ""
@@ -149,7 +148,6 @@ async def autoClaimAll(client):
 
 async def autoNotifyAll(client):
   try:
-    print("again")
     await client.wait_until_ready()
     notifiedList = []
     messageIDList = []
@@ -176,7 +174,6 @@ async def autoNotifyAll(client):
                 if userObject['user'] == user[x]['name']:
                   message = await channel.fetch_message(userObject['messageID'])
                   await message.edit(content="<@"+str(user[x]['name'])+"> Your resin is at "+ str(currResin) + "/160")
-                  print("changed")
       await asyncio.sleep(60)
   except Exception as e:
     print("Error in autoNotifyAll")
