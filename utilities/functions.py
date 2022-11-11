@@ -171,7 +171,7 @@ async def autoNotifyAll(client):
                 messageIDList.append({'user': user[x]['name'], 'messageID': messageID.id})
               elif user[x]['notify'] == 'TRUE' and user[x]['name'] in notifiedList and int(currResin) < int(user[x]['notifyResin']):
                 notifiedList.remove(user[x]['name'])
-                messageIDList[:] = [d for d in messageIDList if d.get('id') != user[x]['name']]
+                messageIDList[:] = [d for d in messageIDList if d.get('user') != user[x]['name']]
               elif user[x]['notify'] == 'TRUE' and user[x]['name'] in notifiedList and int(currResin) > int(user[x]['notifyResin']):
                 for userObject in messageIDList:
                   if userObject['user'] == user[x]['name']:
