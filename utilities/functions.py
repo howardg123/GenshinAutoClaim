@@ -159,6 +159,7 @@ async def autoNotifyAll(client):
           #get all users from guild
           user = await getUsersFromGuild(currChannel)
           for x in range(len(user)):
+            print(user[x]['name'])
             if user[x]['notify'] != None:
               gs.set_cookie(ltuid=int(f.decrypt(str(user[x]['ltuid']).encode("utf-8")).decode("utf-8")), ltoken=str(f.decrypt(str(user[x]['ltoken']).encode("utf-8")).decode("utf-8")))
               currResin = gs.get_notes(f.decrypt(str(await getUID(user[x]['name'])).encode("utf-8")).decode("utf-8"))['resin']
