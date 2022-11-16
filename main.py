@@ -1,4 +1,3 @@
-from posixpath import split
 from create_database import *
 from utilities.functions import *
 from datetime import datetime, timezone
@@ -131,9 +130,7 @@ async def on_message(message):
             await message.channel.send("You are not authorized.")
         except Exception as e:
           print(e)
-try:
-  client.loop.create_task(autoClaimAll(client))
-  client.loop.create_task(autoNotifyAll(client))
-except Exception as e:
-  print(f'{e}')
+
+client.loop.create_task(autoClaimAll(client))
+client.loop.create_task(autoNotifyAll(client))
 client.run(os.environ['DISCORD_TOKEN'])
