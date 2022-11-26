@@ -5,3 +5,4 @@ python-dotenv==0.19.2
 psycopg2==2.9.3
 numpy==1.22.2
 cryptography==36.0.1
+python-dateutil
