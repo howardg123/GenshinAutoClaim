@@ -109,10 +109,7 @@ async def autoClaimAll(client):
             await removeGuildData(currChannel)
         await asyncio.sleep(3600)
         #Restart dyno if 1:00AM
-        if proclist1['worker'].quantity == 1:
-          app1.restart()
-        elif proclist2['worker'].quantity == 1:
-          app2.restart()
+        
       await asyncio.sleep(30)
   except Exception as e:
     print("Error in autoClaimAll")
