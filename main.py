@@ -1,7 +1,5 @@
 from create_database import *
 from utilities.functions import *
-from datetime import datetime, timezone
-from dateutil import tz
 import genshinstats as gs
 import discord
 from dotenv import load_dotenv
@@ -15,7 +13,6 @@ load_dotenv()
 async def on_ready():
     print(f'{client.user} has connected to Discord!')
     await client.wait_until_ready()
-    # await checkDate(client)
 
 @client.event
 async def on_message(message):
