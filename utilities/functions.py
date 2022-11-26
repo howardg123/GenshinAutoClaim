@@ -149,7 +149,7 @@ async def autoNotifyAll(client):
               elif user[x]['notify'] == 'TRUE' and user[x]['name'] in notifiedList and int(currResin) < int(user[x]['notifyResin']):
                 notifiedList.remove(user[x]['name'])
                 messageIDList[:] = [d for d in messageIDList if d.get('user') != user[x]['name']]
-                print("Removed")
+                print("Removed") 
               elif user[x]['notify'] == 'TRUE' and user[x]['name'] in notifiedList and int(currResin) > int(user[x]['notifyResin']):
                 for userObject in messageIDList:
                   if userObject['user'] == user[x]['name']:
