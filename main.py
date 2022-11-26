@@ -15,7 +15,7 @@ load_dotenv()
 async def on_ready():
     print(f'{client.user} has connected to Discord!')
     await client.wait_until_ready()
-    await checkDate(client)
+    # await checkDate(client)
 
 @client.event
 async def on_message(message):

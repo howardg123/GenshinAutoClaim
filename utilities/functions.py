@@ -9,29 +9,6 @@ import os
 
 load_dotenv()
 
-def switch_server(curr, dest):
-  dest.process_formation()['worker'].scale(1)
-  curr.process_formation()['worker'].scale(0)
-
-async def checkDate(client):
-  day = datetime.now().replace(tzinfo=timezone.utc).astimezone(tz.gettz('Asia/Hong_Kong')).strftime('%d')
-  switched = 0
-  channel = client.get_channel(id=int(os.environ['CHANNEL_ID']))
-  if int(day) == 15 and proclist1['worker'].quantity == 1:
-      #open server 2 close server 1
-      await channel.send('Switching to server 2.')
-      switch_server(app1, app2)
-      switched = 1
-  elif int(day) == 1 and proclist2['worker'].quantity == 1:
-      #open server 1 close server 2
-      await channel.send('Switching to server 1.')
-      switch_server(app2, app1)
-      switched = 1
-  if proclist1['worker'].quantity == 1 and int(day) == 1 and switched == 0:
-    await channel.send('Server 1 is up.')
-  elif proclist2['worker'].quantity == 1 and int(day) == 15 and switched == 0:
-    await channel.send('Server 2 is up.')
-
 async def checkGuildExist(message):
   if await getGuild(message.channel.id) is None:
     await insertDataToGuildTable(message.channel.id)
