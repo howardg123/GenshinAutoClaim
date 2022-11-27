@@ -47,7 +47,9 @@ async def getAllGuild():
         record = cursor.fetchall()
         arrayRecord = np.array(record).flatten()
         return arrayRecord
-    except (Exception, psycopg2.Error) as error:
+    except (Exception, psycopg2.InterfaceError) as error:
+        conn = psycopg2.connect(os.environ['DATABASE_URL'], sslmode='require')
+        cursor = conn.cursor()
         print("Failed to get data in guild table", error)
 
 async def removeGuildData(guildId):

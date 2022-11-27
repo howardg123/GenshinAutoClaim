@@ -143,13 +143,11 @@ async def autoNotifyAll(client):
               elif user[x]['notify'] == 'TRUE' and user[x]['name'] in notifiedList and int(currResin) < int(user[x]['notifyResin']):
                 notifiedList.remove(user[x]['name'])
                 messageIDList[:] = [d for d in messageIDList if d.get('user') != user[x]['name']]
-                print("Removed") 
               elif user[x]['notify'] == 'TRUE' and user[x]['name'] in notifiedList and int(currResin) > int(user[x]['notifyResin']):
                 for userObject in messageIDList:
                   if userObject['user'] == user[x]['name']:
                     message = await channel.fetch_message(userObject['messageID'])
                     await message.edit(content="<@"+str(user[x]['name'])+"> Your resin is at "+ str(currResin) + "/160")
-                    print("Edited")
         await asyncio.sleep(60)
       except Exception as e:
         print("Error in autonotifyAll")
