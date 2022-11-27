@@ -140,7 +140,6 @@ async def autoNotifyAll(client):
                 notifiedList.append(user[x]['name'])
                 messageID = await channel.send("<@"+str(user[x]['name'])+"> Your resin is at "+ str(currResin) + "/160")
                 messageIDList.append({'user': user[x]['name'], 'messageID': messageID.id})
-                print("Added")
               elif user[x]['notify'] == 'TRUE' and user[x]['name'] in notifiedList and int(currResin) < int(user[x]['notifyResin']):
                 notifiedList.remove(user[x]['name'])
                 messageIDList[:] = [d for d in messageIDList if d.get('user') != user[x]['name']]
