@@ -129,5 +129,5 @@ async def on_message(message):
           print(e)
 
 client.loop.create_task(autoClaimAll(client))
-client.loop.create_task(autoNotifyAll(client))
+#client.loop.create_task(autoNotifyAll(client))
 client.run(os.environ['DISCORD_TOKEN'])
